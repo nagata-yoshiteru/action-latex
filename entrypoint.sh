@@ -16,6 +16,14 @@ if [ -n "$HOST_WORKSPACE" ]; then
 fi
 
 echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
+    echo $BUILD_DIR/\$(dirname ./{TEX_FILE})
+"
+
+echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
+    ls $BUILD_DIR/\$(dirname ./{TEX_FILE})
+"
+
+echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
     docker run --rm \\
         -v $BUILD_DIR/\$(dirname ./{TEX_FILE}):/workdir \\
         $ARG_ENTRYPOINT \\
