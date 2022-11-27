@@ -15,13 +15,13 @@ if [ -n "$HOST_WORKSPACE" ]; then
     BUILD_DIR="/custom/workspace"
 fi
 
-echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
-    echo $BUILD_DIR/\$(dirname {TEX_FILE})
-"
+# echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
+#     echo $BUILD_DIR/\$(dirname {TEX_FILE})
+# "
 
-echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
-    ls $BUILD_DIR/\$(dirname {TEX_FILE})
-"
+# echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
+#     ls $BUILD_DIR/\$(dirname {TEX_FILE})
+# "
 
 # echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
 #     docker run --rm \\
@@ -44,6 +44,20 @@ echo "docker run --rm \
     $(basename $BUILD_FILES) \
 "
 
+docker run --rm \
+    -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
+    --workdir=/workdir \
+    $BUILD_IMAGE \
+    $BUILD_ARGS \
+    echo test_ls
+
+docker run --rm \
+    -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
+    --workdir=/workdir \
+    $BUILD_IMAGE \
+    $BUILD_ARGS \
+    ls /workdir
+
 
 docker run --rm \
     -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
@@ -51,6 +65,13 @@ docker run --rm \
     $BUILD_IMAGE \
     $BUILD_ARGS \
     ls
+
+docker run --rm \
+    -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
+    --workdir=/workdir \
+    $BUILD_IMAGE \
+    $BUILD_ARGS \
+    echo test_docker
 
 docker run --rm \
     -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
