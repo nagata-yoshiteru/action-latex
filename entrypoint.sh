@@ -5,7 +5,7 @@ docker pull $BUILD_IMAGE
 
 ARG_ENTRYPOINT=""
 if [ -n "$BUILD_ENTRYPOINT" ]; then
-    ARG_ENTRYPOINT="--entrypoint \"$BUILD_ENTRYPOINT\""
+    ARG_ENTRYPOINT="--entrypoint $BUILD_ENTRYPOINT"
 fi
 
 ARG_MOUNT=""
@@ -34,11 +34,22 @@ echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
 #         \$(basename {TEX_FILE})
 # "
 
+echo "docker run --rm \
+    -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
+    $ARG_ENTRYPOINT \
+    $ARG_MOUNT \
+    --workdir=/workdir \
+    $BUILD_IMAGE \
+    $BUILD_ARGS \
+    $(basename $BUILD_FILES) \
+"
+
+
 docker run --rm \
     -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
     $ARG_ENTRYPOINT \
     $ARG_MOUNT \
-    --workdir="/workdir" \
+    --workdir=/workdir \
     $BUILD_IMAGE \
     $BUILD_ARGS \
     $(basename $BUILD_FILES)
