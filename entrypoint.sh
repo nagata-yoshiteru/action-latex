@@ -16,9 +16,8 @@ if [ -n "$HOST_WORKSPACE" ]; then
 fi
 
 echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
-    WORKDIR=\"$BUILD_DIR/\$(dirname ./{TEX_FILE})\"
     docker run --rm \\
-        -v \$WORKDIR:/workdir \\
+        -v $BUILD_DIR/\$(dirname ./{TEX_FILE}):/workdir \\
         $ARG_ENTRYPOINT \\
         $ARG_MOUNT \\
         --workdir=\"/workdir\" \\
