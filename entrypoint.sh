@@ -56,15 +56,21 @@ docker run --rm \
     --workdir=/workdir \
     $BUILD_IMAGE \
     $BUILD_ARGS \
-    ls /workdir
-
+    echo $(ls /workdir)
 
 docker run --rm \
     -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
     --workdir=/workdir \
     $BUILD_IMAGE \
     $BUILD_ARGS \
-    ls
+    echo $(ls /)
+
+docker run --rm \
+    -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
+    --workdir=/workdir \
+    $BUILD_IMAGE \
+    $BUILD_ARGS \
+    echo $(ls /)
 
 docker run --rm \
     -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
