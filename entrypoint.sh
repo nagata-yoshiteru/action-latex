@@ -35,7 +35,7 @@ fi
 # "
 
 echo "docker run --rm \
-    -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
+    -v \"$BUILD_DIR/$(dirname $BUILD_FILES):/workdir\" \
     $ARG_ENTRYPOINT \
     $ARG_MOUNT \
     --workdir=/workdir \
@@ -45,45 +45,32 @@ echo "docker run --rm \
 "
 
 docker run --rm \
-    -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
+    -v "$BUILD_DIR/$(dirname $BUILD_FILES):/workdir" \
     --workdir=/workdir \
     $BUILD_IMAGE \
-    $BUILD_ARGS \
     echo test_ls
 
 docker run --rm \
-    -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
+    -v "$BUILD_DIR/$(dirname $BUILD_FILES):/workdir" \
     --workdir=/workdir \
     $BUILD_IMAGE \
-    $BUILD_ARGS \
     echo $(ls /workdir)
 
 docker run --rm \
-    -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
+    -v "$BUILD_DIR/$(dirname $BUILD_FILES):/workdir" \
     --workdir=/workdir \
     $BUILD_IMAGE \
-    $BUILD_ARGS \
     echo $(ls /)
 
 docker run --rm \
-    -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
+    -v "$BUILD_DIR/$(dirname $BUILD_FILES):/workdir" \
     --workdir=/workdir \
     $BUILD_IMAGE \
-    $BUILD_ARGS \
-    echo $(ls /)
-
-docker run --rm \
-    -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
-    --workdir=/workdir \
-    $BUILD_IMAGE \
-    $BUILD_ARGS \
     echo test_docker
 
 docker run --rm \
-    -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
-    $ARG_ENTRYPOINT \
-    $ARG_MOUNT \
+    -v "$BUILD_DIR/$(dirname $BUILD_FILES):/workdir" \
     --workdir=/workdir \
+    $ARG_ENTRYPOINT \
     $BUILD_IMAGE \
-    $BUILD_ARGS \
     $(basename $BUILD_FILES)
