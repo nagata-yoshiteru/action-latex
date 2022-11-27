@@ -52,17 +52,17 @@ docker run --rm \
 docker run --rm \
     -v "$BUILD_DIR/$(dirname $BUILD_FILES):/workdir" \
     $BUILD_IMAGE \
-    echo \$(ls $BUILD_DIR/$(dirname $BUILD_FILES):/workdir)
+    echo \$\(ls $BUILD_DIR/$(dirname $BUILD_FILES):/workdir\)
 
 docker run --rm \
     -v "$BUILD_DIR/$(dirname $BUILD_FILES):/workdir" \
     $BUILD_IMAGE \
-    echo \$(ls /workdir)
+    echo \$\(ls /workdir\)
 
 docker run --rm \
     -v "$BUILD_DIR/$(dirname $BUILD_FILES):/workdir" \
     $BUILD_IMAGE \
-    echo \$(ls /)
+    echo \$\(ls /\)
 
 docker run --rm \
     -v "$BUILD_DIR/$(dirname $BUILD_FILES):/workdir" \
