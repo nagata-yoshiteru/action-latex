@@ -23,13 +23,22 @@ echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
     ls $BUILD_DIR/\$(dirname ./{TEX_FILE})
 "
 
-echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
-    docker run --rm \\
-        -v $BUILD_DIR/\$(dirname {TEX_FILE}):/workdir \\
-        $ARG_ENTRYPOINT \\
-        $ARG_MOUNT \\
-        --workdir=\"/workdir\" \\
-        $BUILD_IMAGE \\
-        $BUILD_ARGS \\
-        \$(basename {TEX_FILE})
-"
+# echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
+#     docker run --rm \\
+#         -v $BUILD_DIR/\$(dirname {TEX_FILE}):/workdir \\
+#         $ARG_ENTRYPOINT \\
+#         $ARG_MOUNT \\
+#         --workdir=\"/workdir\" \\
+#         $BUILD_IMAGE \\
+#         $BUILD_ARGS \\
+#         \$(basename {TEX_FILE})
+# "
+
+docker run --rm \
+    -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
+    $ARG_ENTRYPOINT \
+    $ARG_MOUNT \
+    --workdir="/workdir" \
+    $BUILD_IMAGE \
+    $BUILD_ARGS \
+    $(basename $BUILD_FILES)
