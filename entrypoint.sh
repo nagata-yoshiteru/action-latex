@@ -16,11 +16,11 @@ if [ -n "$HOST_WORKSPACE" ]; then
 fi
 
 echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
-    echo $BUILD_DIR/\$(dirname ./{TEX_FILE})
+    echo $BUILD_DIR/\$(dirname {TEX_FILE})
 "
 
 echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
-    ls $BUILD_DIR/\$(dirname ./{TEX_FILE})
+    ls $BUILD_DIR/\$(dirname {TEX_FILE})
 "
 
 # echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
@@ -44,6 +44,13 @@ echo "docker run --rm \
     $(basename $BUILD_FILES) \
 "
 
+
+docker run --rm \
+    -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
+    --workdir=/workdir \
+    $BUILD_IMAGE \
+    $BUILD_ARGS \
+    ls
 
 docker run --rm \
     -v $BUILD_DIR/$(dirname $BUILD_FILES):/workdir \
