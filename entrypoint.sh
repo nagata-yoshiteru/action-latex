@@ -25,11 +25,11 @@ echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
 
 echo "$BUILD_FILES" | xargs -I{TEX_FILE} -P $(nproc) -t sh -c "
     docker run --rm \\
-        -v $BUILD_DIR/$(dirname ./{TEX_FILE}):/workdir \\
+        -v $BUILD_DIR/\$(dirname {TEX_FILE}):/workdir \\
         $ARG_ENTRYPOINT \\
         $ARG_MOUNT \\
         --workdir=\"/workdir\" \\
         $BUILD_IMAGE \\
         $BUILD_ARGS \\
-        $(basename {TEX_FILE})
+        \$(basename {TEX_FILE})
 "
