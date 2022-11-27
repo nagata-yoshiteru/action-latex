@@ -46,31 +46,32 @@ echo "docker run --rm \
 
 docker run --rm \
     -v "$BUILD_DIR/$(dirname $BUILD_FILES):/workdir" \
-    --workdir=/workdir \
     $BUILD_IMAGE \
     echo test_ls
 
 docker run --rm \
     -v "$BUILD_DIR/$(dirname $BUILD_FILES):/workdir" \
-    --workdir=/workdir \
+    $BUILD_IMAGE \
+    echo $(ls $BUILD_DIR/$(dirname $BUILD_FILES):/workdir)
+
+docker run --rm \
+    -v "$BUILD_DIR/$(dirname $BUILD_FILES):/workdir" \
     $BUILD_IMAGE \
     echo $(ls /workdir)
 
 docker run --rm \
     -v "$BUILD_DIR/$(dirname $BUILD_FILES):/workdir" \
-    --workdir=/workdir \
     $BUILD_IMAGE \
     echo $(ls /)
 
 docker run --rm \
     -v "$BUILD_DIR/$(dirname $BUILD_FILES):/workdir" \
-    --workdir=/workdir \
     $BUILD_IMAGE \
     echo test_docker
 
 docker run --rm \
     -v "$BUILD_DIR/$(dirname $BUILD_FILES):/workdir" \
-    --workdir=/workdir \
+    --workdir="$BUILD_DIR/$(dirname $BUILD_FILES)" \
     $ARG_ENTRYPOINT \
     $BUILD_IMAGE \
     $(basename $BUILD_FILES)
